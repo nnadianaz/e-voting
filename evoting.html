@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Index</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    
+  <nav class="font-serif bg-sky-900 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <img src="evote svg.svg" alt="Logo" class="h-8 w-auto mr-2">
+        <span class="text-white font-semibold text-lg ">E-voting System</span>
+      </div>
+      <!-- Navigation Links -->
+      <ul class="flex space-x-4">
+        <li><a href="index.html" class="text-white hover:text-gray-300 transition duration-300 ease-in-out">Home</a></li>
+        <li><a href="evoting.html" class="text-white hover:text-gray-300">Dashboards</a></li>
+        <!-- <li><a href="#" class="text-white hover:text-gray-300">Services</a></li>
+        <li><a href="#" class="text-white hover:text-gray-300">Contact</a></li> -->
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="font-serif bg-sky-100 h-screen flex flex-col justify-center items-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3 border-2 border-sky-600">
+      <h1 class="text-3xl font-bold text-center mb-8">Online Voting</h1>
+      <div class="flex flex-col mb-4">
+        <label for="candidate" class="text-lg font-semibold mb-2">
+          Choose Candidate:
+        </label>
+   <select name="" id="candidate" class="border border-sky-500 rounded-md py-2 px-3 focus:outline-none">
+  <!-- focus outline none will remove line highlight in border -->
+    <option value="John">John</option>
+    <option value="Smith">Smith</option>
+    <option value="Taylor">Taylor</option>
+    <option value="Samm">Samm</option>
+  </select>
+    </div>
+    <button id="voteButton" class="bg-sky-900 text-white px-6 py-2 rounded-md self-center mt-4 focus:outline-none">
+      Vote
+    </button>
+    <button id="clearButton" class="bg-sky-900 text-white px-6 py-2 rounded-md self-center mt-4 ml-2 focus:outline-none">
+      Clear Votes
+    </button>
+    
+    <button id="resultButton" class="bg-sky-900 text-white px-6 py-2 rounded-md self-center mt-4 ml-2 focus:outline-none">
+      Show Result
+    </button>
+    
+    <div id="votingList" class="hidden">
+      <ul id="votes" class="mt-4">
+        <!-- List items will be dynamically added here -->
+      </ul>
+    </div>
+
+    <div id="resultContainer ">
+      <iframe src="https://giphy.com/embed/l0HlSDiA6WUytl9oA" width="80" height="100" frameBorder="1" class="giphy-embed mt-4 rounded-lg" allowFullScreen></iframe>
+      <p><a href=""></a></p>
+      <ul id="resultList"></ul>
+    </div>
+    
+    <script>
+
+      const voteButton = document.getElementById('voteButton');
+      const clearButton = document.getElementById('clearButton');
+      const resultButton = document.getElementById('resultButton');
+      const votingList = document.getElementById('votingList');
+      const votes = {
+        "John": 0,
+        "Smith": 0,
+        "Taylor": 0,
+        "Samm": 0
+      };
+    
+      voteButton.addEventListener('click', function () {
+        const selectedCandidate = document.getElementById('candidate').value;
+    
+        switch (selectedCandidate) {
+          case "John":
+            votes["John"]++;
+            break;
+          case "Smith":
+            votes["Smith"]++;
+            break;
+          case "Taylor":
+            votes["Taylor"]++;
+            break;
+          case "Samm":
+            votes["Samm"]++;
+            break;
+          default:
+            break;
+        }
+    
+        const votingListItems = Object.keys(votes).map(candidate => `<li>${candidate}: ${votes[candidate]}</li>`).join('');
+        document.getElementById('votes').innerHTML = votingListItems;
+    
+        votingList.classList.remove('hidden');
+      });
+    
+      clearButton.addEventListener('click', function () {
+        // Reset all vote counts to 0
+        for (let candidate in votes) {
+          votes[candidate] = 0;
+        }
+        
+        // Clear the voting list
+        document.getElementById('votes').innerHTML = '';
+    
+        // Hide the voting list
+        votingList.classList.add('hidden');
+      });
+    
+      resultButton.addEventListener('click', function () {
+    // Find the candidate with maximum votes (the winner)
+    let maxVotes = -1;
+    let winner = "";
+    for (let candidate in votes) {
+        if (votes[candidate] > maxVotes) {
+            maxVotes = votes[candidate];
+            winner = candidate;
+        }
+    }
+    
+    // Display the voting result (only the winner) in a list
+    const resultList = document.getElementById('resultList');
+    resultList.innerHTML = ''; // Clear previous results
+    
+    if (winner !== "") {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${winner}: ${maxVotes}`;
+        resultList.appendChild(listItem);
+        
+    }
+      
+    
+      });
+    </script>
+    
+    
+</div>
+  </div>
+      
+</body>
+</html>
